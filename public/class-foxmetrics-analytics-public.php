@@ -111,10 +111,30 @@ class Foxmetrics_Analytics_Public {
 			?>
 			<!-- FoxMetrics Web Analytics Start -->
 			<script type="text/javascript">
-				var _fxm = '<?php echo json_encode($foxmetrics_analytics_options); ?>';
+				var _fxm = _fxm || {};
 				_fxm.events = _fxm.events || [];
 				_fxm.app_id = '<?php echo $foxmetrics_analytics_options["app_id"]; ?>';
-				<!-- CONFIG VARS -->
+				_fxm.collector_id = '<?php echo $foxmetrics_analytics_options["collector_id"]; ?>';
+				_fxm.privacy_mode = '<?php echo $foxmetrics_analytics_options["privacy_mode"]; ?>';
+				_fxm.auto_track = <?php echo (isset($foxmetrics_analytics_options["auto_track"]) && $foxmetrics_analytics_options["auto_track"] == "1")? "true": "false"; ?>;
+				_fxm.auto_track_scrolls = <?php echo (isset($foxmetrics_analytics_options["auto_track_scrolls"]) && $foxmetrics_analytics_options["auto_track_scrolls"] == "1")? "true": "false"; ?>;
+				_fxm.auto_track_outbound = <?php echo (isset($foxmetrics_analytics_options["auto_track_outbound"]) && $foxmetrics_analytics_options["auto_track_outbound"] == "1")? "true": "false"; ?>;
+				_fxm.auto_track_sitesearch = <?php echo (isset($foxmetrics_analytics_options["auto_track_sitesearch"]) && $foxmetrics_analytics_options["auto_track_sitesearch"] == "1")? "true": "false"; ?>;
+				_fxm.auto_track_downloads = <?php echo (isset($foxmetrics_analytics_options["auto_track_downloads"]) && $foxmetrics_analytics_options["auto_track_downloads"] == "1")? "true": "false"; ?>;
+				_fxm.auto_track_errors = <?php echo (isset($foxmetrics_analytics_options["auto_track_errors"]) && $foxmetrics_analytics_options["auto_track_errors"] == "1")? "true": "false"; ?>;
+				_fxm.debug_mode = <?php echo (isset($foxmetrics_analytics_options["debug_mode"]) && $foxmetrics_analytics_options["debug_mode"] == "1")? "true": "false"; ?>;
+				_fxm.log_verbose = <?php echo (isset($foxmetrics_analytics_options["log_verbose"]) && $foxmetrics_analytics_options["log_verbose"] == "1")? "true": "false"; ?>;
+
+				_fxm.cross_domains = <?php 
+					if(isset($foxmetrics_analytics_options["cross_domains"]) && !empty($foxmetrics_analytics_options["cross_domains"])){
+						$cross_domains_array = explode(",", $foxmetrics_analytics_options["cross_domains"]);
+						$cross_domains_array = array_map('trim', $cross_domains_array);
+						echo json_encode($cross_domains_array); 
+					}else{
+						echo json_encode(array()); 
+					}
+				?>;
+				
 				(function () {
 					var fxms = document.createElement('script'); fxms.type = 'text/javascript'; fxms.async = true;
 					fxms.src = 'https://<?php echo $foxmetrics_analytics_options["collector_id"]; ?>.cloudfront.net/scripts/<?php echo $foxmetrics_analytics_options["app_id"]; ?>.js';

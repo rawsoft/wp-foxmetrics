@@ -13,7 +13,7 @@
  * @package           Foxmetrics_Analytics
  *
  * @wordpress-plugin
- * Plugin Name:       FoxMetrics Analytics
+ * Plugin Name:       FoxMetrics
  * Plugin URI:        https://www.foxmetrics.com/
  * Description:       FoxMetrics helps you overcome the challenges with siloed systems and products. It captures, stores, and unlocks data generated from the web, mobile, and other sources and drive value from customer behavioral data.
  * Version:           1.0.0

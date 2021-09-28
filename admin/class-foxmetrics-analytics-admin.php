@@ -117,13 +117,11 @@ class Foxmetrics_Analytics_Admin {
 	public function register_settings_page_menu() {
 
 		add_menu_page(
-			__( 'FoxMetrics Analytics', 'foxmetrics' ), // page_title
-			__( 'FoxMetrics Analytics', 'foxmetrics' ), // menu_title
+			__( 'FoxMetrics', 'foxmetrics' ), // page_title
+			__( 'FoxMetrics', 'foxmetrics' ), // menu_title
 			'manage_options', // capability
 			'foxmetrics-analytics', // menu_slug
 			array( $this, 'foxmetrics_analytics_create_admin_page' ), // function
-			'dashicons-performance', // icon_url
-			80 // position
 		);
 	}
 
@@ -291,10 +289,10 @@ class Foxmetrics_Analytics_Admin {
 	 */
 	public function foxmetrics_analytics_privacy_mode_render() { 
 		$options = $this->foxmetrics_analytics_options;
-		$privacy_mode = !empty($options['privacy_mode']) ? $options['privacy_mode'] : 'Unrestricted' ; ?>
+		$privacy_mode = !empty($options['privacy_mode']) ? $options['privacy_mode'] : 'unrestricted' ; ?>
 		<select name='foxmetrics_analytics_settings[privacy_mode]' class="regular-text">
-			<option value="Unrestricted" <?php echo ($privacy_mode=='Unrestricted') ? ' selected' : ''; ?> ><?php echo __( 'Unrestricted', 'foxmetrics' ); ?></option>
-			<option value="Strict" <?php echo ($privacy_mode=='Strict') ? ' selected' : ''; ?> ><?php echo __( 'Strict', 'foxmetrics' ); ?></option>
+			<option value="unrestricted" <?php echo ($privacy_mode=='unrestricted') ? ' selected' : ''; ?> ><?php echo __( 'Unrestricted', 'foxmetrics' ); ?></option>
+			<option value="strict" <?php echo ($privacy_mode=='strict') ? ' selected' : ''; ?> ><?php echo __( 'Strict', 'foxmetrics' ); ?></option>
 		</select>
 		<?php
 	}
@@ -316,7 +314,15 @@ class Foxmetrics_Analytics_Admin {
 	 */
 	public function foxmetrics_analytics_auto_track_render() { 
 		$options = $this->foxmetrics_analytics_options;
-		$checked = !empty($options['auto_track']) ? 'checked' : '' ; ?>
+
+			if(!isset($options['auto_track'])){
+				$checked = 'checked';
+			}
+			$checked = (isset($options['auto_track']) && !empty($options['auto_track'])) ? 'checked' : '' ; 
+			if(!$options){
+				$checked = 'checked'; 
+			}
+		?>
 		<input type='checkbox' class="regular-text" name='foxmetrics_analytics_settings[auto_track]' value='1' <?php echo $checked; ?>>
 		<?php
 	}
