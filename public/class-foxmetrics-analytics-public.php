@@ -108,14 +108,15 @@ class Foxmetrics_Analytics_Public {
 	public function web_analytics_tracking() {
 		$foxmetrics_analytics_options = get_option( 'foxmetrics_analytics_settings' );
 		if ( !empty($foxmetrics_analytics_options["app_id"]) && !empty($foxmetrics_analytics_options["collector_id"]) ) {
+			$fxm_src = 'https://'.$foxmetrics_analytics_options["collector_id"].'.cloudfront.net/scripts/'.$foxmetrics_analytics_options["app_id"].'.js'
 			?>
 			<!-- FoxMetrics Web Analytics Start -->
 			<script type="text/javascript">
 				var _fxm = _fxm || {};
 				_fxm.events = _fxm.events || [];
-				_fxm.app_id = '<?php echo $foxmetrics_analytics_options["app_id"]; ?>';
-				_fxm.collector_id = '<?php echo $foxmetrics_analytics_options["collector_id"]; ?>';
-				_fxm.privacy_mode = '<?php echo $foxmetrics_analytics_options["privacy_mode"]; ?>';
+				_fxm.app_id = '<?php echo esc_html($foxmetrics_analytics_options["app_id"]); ?>';
+				_fxm.collector_id = '<?php echo esc_html($foxmetrics_analytics_options["collector_id"]); ?>';
+				_fxm.privacy_mode = '<?php echo esc_html($foxmetrics_analytics_options["privacy_mode"]); ?>';
 				_fxm.auto_track = <?php echo (isset($foxmetrics_analytics_options["auto_track"]) && $foxmetrics_analytics_options["auto_track"] == "1")? "true": "false"; ?>;
 				_fxm.auto_track_scrolls = <?php echo (isset($foxmetrics_analytics_options["auto_track_scrolls"]) && $foxmetrics_analytics_options["auto_track_scrolls"] == "1")? "true": "false"; ?>;
 				_fxm.auto_track_outbound = <?php echo (isset($foxmetrics_analytics_options["auto_track_outbound"]) && $foxmetrics_analytics_options["auto_track_outbound"] == "1")? "true": "false"; ?>;
@@ -137,7 +138,7 @@ class Foxmetrics_Analytics_Public {
 				
 				(function () {
 					var fxms = document.createElement('script'); fxms.type = 'text/javascript'; fxms.async = true;
-					fxms.src = 'https://<?php echo $foxmetrics_analytics_options["collector_id"]; ?>.cloudfront.net/scripts/<?php echo $foxmetrics_analytics_options["app_id"]; ?>.js';
+					fxms.src = '<?php echo esc_url($fxm_src); ?>';
 					var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(fxms, s);
 				})();
 			</script>

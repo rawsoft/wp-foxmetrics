@@ -269,7 +269,7 @@ class Foxmetrics_Analytics_Admin {
 	 */
 	public function foxmetrics_analytics_app_id_render() { 
 		$options = $this->foxmetrics_analytics_options; ?>
-		<input type='text' class="regular-text" name='foxmetrics_analytics_settings[app_id]' value='<?php echo !empty($options['app_id']) ? $options['app_id'] : '' ; ?>'>
+		<input type='text' class="regular-text" name='foxmetrics_analytics_settings[app_id]' value='<?php echo !empty($options['app_id']) ? esc_html($options['app_id']) : '' ; ?>'>
 		<?php
 	}
 	/**
@@ -279,7 +279,7 @@ class Foxmetrics_Analytics_Admin {
 	 */
 	public function foxmetrics_analytics_collector_id_render() { 
 		$options = $this->foxmetrics_analytics_options; ?>
-		<input type='text' class="regular-text" name='foxmetrics_analytics_settings[collector_id]' value='<?php echo !empty($options['collector_id']) ? $options['collector_id'] : 'd35tca7vmefkrc' ; ?>'>
+		<input type='text' class="regular-text" name='foxmetrics_analytics_settings[collector_id]' value='<?php echo !empty($options['collector_id']) ? esc_html($options['collector_id']) : 'd35tca7vmefkrc' ; ?>'>
 		<?php
 	}
 	/**
@@ -289,10 +289,10 @@ class Foxmetrics_Analytics_Admin {
 	 */
 	public function foxmetrics_analytics_privacy_mode_render() { 
 		$options = $this->foxmetrics_analytics_options;
-		$privacy_mode = !empty($options['privacy_mode']) ? $options['privacy_mode'] : 'unrestricted' ; ?>
+		$privacy_mode = !empty($options['privacy_mode']) ? esc_html($options['privacy_mode']) : 'unrestricted' ; ?>
 		<select name='foxmetrics_analytics_settings[privacy_mode]' class="regular-text">
-			<option value="unrestricted" <?php echo ($privacy_mode=='unrestricted') ? ' selected' : ''; ?> ><?php echo __( 'Unrestricted', 'foxmetrics' ); ?></option>
-			<option value="strict" <?php echo ($privacy_mode=='strict') ? ' selected' : ''; ?> ><?php echo __( 'Strict', 'foxmetrics' ); ?></option>
+			<option value="unrestricted" <?php echo ($privacy_mode=='unrestricted') ? 'selected="selected"' : ''; ?> ><?php echo __( 'Unrestricted', 'foxmetrics' ); ?></option>
+			<option value="strict" <?php echo ($privacy_mode=='strict') ? 'selected="selected"' : ''; ?> ><?php echo __( 'Strict', 'foxmetrics' ); ?></option>
 		</select>
 		<?php
 	}
@@ -323,7 +323,7 @@ class Foxmetrics_Analytics_Admin {
 				$checked = 'checked'; 
 			}
 		?>
-		<input type='checkbox' class="regular-text" name='foxmetrics_analytics_settings[auto_track]' value='1' <?php echo $checked; ?>>
+		<input type='checkbox' class="regular-text" name='foxmetrics_analytics_settings[auto_track]' value='1' <?php echo esc_html($checked); ?>>
 		<?php
 	}
 	/**
@@ -334,7 +334,7 @@ class Foxmetrics_Analytics_Admin {
 	public function foxmetrics_analytics_auto_track_scrolls_render() { 
 		$options = $this->foxmetrics_analytics_options;
 		$checked = !empty($options['auto_track_scrolls']) ? 'checked' : '' ; ?>
-		<input type='checkbox' class="regular-text" name='foxmetrics_analytics_settings[auto_track_scrolls]' value='1' <?php echo $checked; ?>>
+		<input type='checkbox' class="regular-text" name='foxmetrics_analytics_settings[auto_track_scrolls]' value='1' <?php echo esc_html($checked); ?>>
 		<?php
 	}
 	/**
@@ -345,7 +345,7 @@ class Foxmetrics_Analytics_Admin {
 	public function foxmetrics_analytics_auto_track_outbound_render() { 
 		$options = $this->foxmetrics_analytics_options;
 		$checked = !empty($options['auto_track_outbound']) ? 'checked' : '' ; ?>
-		<input type='checkbox' class="regular-text" name='foxmetrics_analytics_settings[auto_track_outbound]' value='1' <?php echo $checked; ?>>
+		<input type='checkbox' class="regular-text" name='foxmetrics_analytics_settings[auto_track_outbound]' value='1' <?php echo esc_html($checked); ?>>
 		<?php
 	}
 	/**
@@ -356,7 +356,7 @@ class Foxmetrics_Analytics_Admin {
 	public function foxmetrics_analytics_auto_track_sitesearch_render() { 
 		$options = $this->foxmetrics_analytics_options;
 		$checked = !empty($options['auto_track_sitesearch']) ? 'checked' : '' ; ?>
-		<input type='checkbox' class="regular-text" name='foxmetrics_analytics_settings[auto_track_sitesearch]' value='1' <?php echo $checked; ?>>
+		<input type='checkbox' class="regular-text" name='foxmetrics_analytics_settings[auto_track_sitesearch]' value='1' <?php echo esc_html($checked); ?>>
 		<?php
 	}
 	/**
@@ -367,7 +367,7 @@ class Foxmetrics_Analytics_Admin {
 	public function foxmetrics_analytics_auto_track_downloads_render() { 
 		$options = $this->foxmetrics_analytics_options;
 		$checked = !empty($options['auto_track_downloads']) ? 'checked' : '' ; ?>
-		<input type='checkbox' class="regular-text" name='foxmetrics_analytics_settings[auto_track_downloads]' value='1' <?php echo $checked; ?>>
+		<input type='checkbox' class="regular-text" name='foxmetrics_analytics_settings[auto_track_downloads]' value='1' <?php echo esc_html($checked); ?>>
 		<?php
 	}
 	/**
@@ -378,7 +378,7 @@ class Foxmetrics_Analytics_Admin {
 	public function foxmetrics_analytics_auto_track_errors_render() { 
 		$options = $this->foxmetrics_analytics_options;
 		$checked = !empty($options['auto_track_errors']) ? 'checked' : '' ; ?>
-		<input type='checkbox' class="regular-text" name='foxmetrics_analytics_settings[auto_track_errors]' value='1' <?php echo $checked; ?>>
+		<input type='checkbox' class="regular-text" name='foxmetrics_analytics_settings[auto_track_errors]' value='1' <?php echo esc_html($checked); ?>>
 		<?php
 	}
 
@@ -390,7 +390,7 @@ class Foxmetrics_Analytics_Admin {
 	public function foxmetrics_analytics_debug_mode_render() { 
 		$options = $this->foxmetrics_analytics_options;
 		$checked = !empty($options['debug_mode']) ? 'checked' : '' ; ?>
-		<input type='checkbox' class="regular-text" name='foxmetrics_analytics_settings[debug_mode]' value='1' <?php echo $checked; ?>>
+		<input type='checkbox' class="regular-text" name='foxmetrics_analytics_settings[debug_mode]' value='1' <?php echo esc_html($checked); ?>>
 		<?php
 	}
 	/**
@@ -401,7 +401,7 @@ class Foxmetrics_Analytics_Admin {
 	public function foxmetrics_analytics_log_verbose_render() { 
 		$options = $this->foxmetrics_analytics_options;
 		$checked = !empty($options['log_verbose']) ? 'checked' : '' ; ?>
-		<input type='checkbox' class="regular-text" name='foxmetrics_analytics_settings[log_verbose]' value='1' <?php echo $checked; ?>>
+		<input type='checkbox' class="regular-text" name='foxmetrics_analytics_settings[log_verbose]' value='1' <?php echo esc_html($checked); ?>>
 		<?php
 	}
 }

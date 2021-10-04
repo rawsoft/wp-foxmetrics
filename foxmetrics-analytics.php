@@ -18,7 +18,7 @@
  * Description:       FoxMetrics helps you overcome the challenges with siloed systems and products. It captures, stores, and unlocks data generated from the web, mobile, and other sources and drive value from customer behavioral data.
  * Version:           1.0.0
  * Author:            FoxMetrics
- * Author URI:        https://www.foxmetrics.com/
+ * Author URI:        https://www.foxmetrics.com/contact-us/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       foxmetrics
