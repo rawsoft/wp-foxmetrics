@@ -78,6 +78,7 @@ class Foxmetrics_Analytics {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
+		$this->define_woocommerce_support_hooks();
 
 	}
 
@@ -121,6 +122,12 @@ class Foxmetrics_Analytics {
 		 * side of the site.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-foxmetrics-analytics-public.php';
+
+		/**
+		 * WooCommerce is activated.
+		 * The class responsible for defining all actions that support for WooCommerce.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'woocommerce/class-foxmetrics-analytics-woocommerce-support.php';
 
 		$this->loader = new Foxmetrics_Analytics_Loader();
 
@@ -175,8 +182,28 @@ class Foxmetrics_Analytics {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-
 		$this->loader->add_action( 'wp_head', $plugin_public, 'web_analytics_tracking' );
+
+	}
+
+	/**
+	 * Register all of the hooks related to the woocommerce support functionality
+	 * of the plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function define_woocommerce_support_hooks() {
+
+		$plugin_woocommerce_support = new Foxmetrics_Analytics_WooCommerce_Support( $this->get_plugin_name(), $this->get_version() );
+		$this->loader->add_action( 'wc_analytics_tracking_productview', $plugin_woocommerce_support, 'wc_analytics_tracking_productview' );
+		$this->loader->add_action( 'wc_analytics_tracking_order_received', $plugin_woocommerce_support, 'wc_analytics_tracking_order_received' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_woocommerce_support, 'enqueue_scripts' );
+		/* AJAX Callback */
+		$this->loader->add_action( 'wp_ajax_foxmetrics_tracking_cart_remove_item', $plugin_woocommerce_support, 'foxmetrics_tracking_cart_remove_item_callback' );
+		$this->loader->add_action( 'wp_ajax_nopriv_foxmetrics_tracking_cart_remove_item', $plugin_woocommerce_support, 'foxmetrics_tracking_cart_remove_item_callback' );
+		$this->loader->add_action( 'wp_ajax_foxmetrics_tracking_cart_add_item', $plugin_woocommerce_support, 'foxmetrics_tracking_cart_add_item_callback' );
+		$this->loader->add_action( 'wp_ajax_nopriv_foxmetrics_tracking_cart_add_item', $plugin_woocommerce_support, 'foxmetrics_tracking_cart_add_item_callback' );
 
 	}
 

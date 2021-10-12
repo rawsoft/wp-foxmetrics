@@ -16,7 +16,7 @@
  * Plugin Name:       FoxMetrics
  * Plugin URI:        https://www.foxmetrics.com/
  * Description:       FoxMetrics helps you overcome the challenges with siloed systems and products. It captures, stores, and unlocks data generated from the web, mobile, and other sources and drive value from customer behavioral data.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            FoxMetrics
  * Author URI:        https://www.foxmetrics.com/contact-us/
  * License:           GPL-2.0+
@@ -35,7 +35,14 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'FOXMETRICS_ANALYTICS_VERSION', '1.0.0' );
+
+if(defined("SCRIPT_DEBUG")){
+	define( 'FOXMETRICS_ANALYTICS_VERSION', time() );
+} else{
+	define( 'FOXMETRICS_ANALYTICS_VERSION', '1.0.1' );
+}
+
+
 
 /**
  * The code that runs during plugin activation.

@@ -135,7 +135,16 @@ class Foxmetrics_Analytics_Public {
 						echo json_encode(array()); 
 					}
 				?>;
-				
+				<?php 
+				if ( class_exists( 'woocommerce' ) ) {
+					if ( is_product() ) {
+						do_action( 'wc_analytics_tracking_productview' );
+					}
+					if(is_wc_endpoint_url( 'order-received' )) {
+						do_action( 'wc_analytics_tracking_order_received' );
+					}
+				}
+				?>				
 				(function () {
 					var fxms = document.createElement('script'); fxms.type = 'text/javascript'; fxms.async = true;
 					fxms.src = '<?php echo esc_url($fxm_src); ?>';
