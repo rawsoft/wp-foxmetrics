@@ -185,21 +185,25 @@ class Foxmetrics_Analytics_WooCommerce_Support {
 							$product_type = $item->get_type();
 							$product_name_and_cat_name = $this->wc_get_product_name_and_cat_name( $product_id );
 							$product_category_name = (!empty($product_name_and_cat_name['product_category_name']) ? $product_name_and_cat_name['product_category_name'] : '');
-							echo "\n"."_fxm.events.push(['_fxm.ecommerce.purchaseitem','".$product_id."', '".$product_name."', '".$product_category_name."', '".$quantity."', '".$order_id."', '".$item_id."', '".$tax."']);";
+							echo "\n"."_fxm.events.push(['_fxm.ecommerce.purchaseitem','".$product_id."', '".$product_name."', '".$product_category_name."', '".$quantity."', '".$total."', '".$order_id."', '".$item_id."', '".$tax."']);";
 						}
 					}
 
 					// Get Order Lines
-					$line_subtotal = $order->get_subtotal();
-					$total_tax = $order->get_total_tax();
-					$shipping_total = $order->get_shipping_total();
+					//$line_subtotal = $order->get_subtotal();
+					$tax_display = get_option( 'woocommerce_tax_display_cart' );
+					$line_subtotal_with_taxes = strip_tags(html_entity_decode($order->get_subtotal_to_display( false, $tax_display )));
 
+					$total_tax = $order->get_total_tax();
+					// $shipping_total = $order->get_shipping_total();
+					$shipping_total_with_taxes = strip_tags(html_entity_decode($order->get_shipping_to_display( $tax_display )));
+					
 					// Get Order Billing Addresses
 					$billing_city = $order->get_billing_city();
 					$billing_state = $order->get_billing_state();
 					$billing_postcode = $order->get_billing_postcode();
 
-					echo "\n"."_fxm.events.push(['_fxm.ecommerce.order','".$order_id."', '".$line_subtotal."', '".$shipping_total."', '".$total_tax."', '".$billing_city."', '".$billing_state."', '".$billing_postcode."', '".$unique_items_counts."']);";
+					echo "\n"."_fxm.events.push(['_fxm.ecommerce.order','".$order_id."', '".$line_subtotal_with_taxes."', '".$shipping_total_with_taxes."', '".$total_tax."', '".$billing_city."', '".$billing_state."', '".$billing_postcode."', '".$unique_items_counts."']);";
 				}
 			}
 		}
