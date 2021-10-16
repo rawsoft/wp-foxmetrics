@@ -67,10 +67,11 @@
             var product_id = FA_WC_Support_Script.product_id;
             var product_name = FA_WC_Support_Script.product_name;
             var product_category_name = FA_WC_Support_Script.product_category_name;
+            var product_price = FA_WC_Support_Script.product_price;
             var product_quantity = jQuery('.single-product div.product form.cart .quantity .qty').val();
             /* Prepare the script */
 
-            _fxm.events.push(['_fxm.ecommerce.addcartitem', product_id, product_name, product_category_name, product_quantity]);
+            _fxm.events.push(['_fxm.ecommerce.addcartitem', product_id, product_name, product_category_name, product_quantity, product_price]);
             
         }
     });

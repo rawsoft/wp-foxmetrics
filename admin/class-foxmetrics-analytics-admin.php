@@ -121,7 +121,7 @@ class Foxmetrics_Analytics_Admin {
 			__( 'FoxMetrics', 'foxmetrics' ), // menu_title
 			'manage_options', // capability
 			'foxmetrics-analytics', // menu_slug
-			array( $this, 'foxmetrics_analytics_create_admin_page' ), // function
+			array( $this, 'foxmetrics_analytics_create_admin_page' )
 		);
 	}
 
