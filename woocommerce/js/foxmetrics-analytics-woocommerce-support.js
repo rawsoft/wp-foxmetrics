@@ -99,5 +99,30 @@
         }
     });
 
+    /** when product updated into cart page. */
+    $(document).on("updated_wc_div", function(){
+        /* $(".cart_item .product-remove > a").each(function(ind, ele){ */
+            /* var product_id = $(ele).attr("data-product_id"); */
+            
+            jQuery.ajax({
+                type: 'POST',
+                url: FA_WC_Support_Script.ajax_url,
+                data: {
+                    'action': 'foxmetrics_tracking_update_cart',
+                    /* 'product_id': product_id, */
+                }, success: function (result) {
+                    var json_data = JSON.parse(result);
+                    if ( json_data.success ) {
+                        if ( json_data.event_script ) {
+                            jQuery( 'body' ).append( json_data.event_script );
+                        }
+                    }
+                },
+                error: function () {
+                }
+            });
+        /* }); */
+    });
+
 
 })( jQuery );

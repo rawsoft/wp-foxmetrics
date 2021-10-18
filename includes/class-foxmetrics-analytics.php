@@ -205,6 +205,9 @@ class Foxmetrics_Analytics {
 		$this->loader->add_action( 'wp_ajax_foxmetrics_tracking_cart_add_item', $plugin_woocommerce_support, 'foxmetrics_tracking_cart_add_item_callback' );
 		$this->loader->add_action( 'wp_ajax_nopriv_foxmetrics_tracking_cart_add_item', $plugin_woocommerce_support, 'foxmetrics_tracking_cart_add_item_callback' );
 
+		$this->loader->add_action( 'wp_ajax_foxmetrics_tracking_update_cart', $plugin_woocommerce_support, 'foxmetrics_tracking_update_cart_callback' );
+		$this->loader->add_action( 'wp_ajax_nopriv_foxmetrics_tracking_update_cart', $plugin_woocommerce_support, 'foxmetrics_tracking_update_cart_callback' );
+
 	}
 
 	/**

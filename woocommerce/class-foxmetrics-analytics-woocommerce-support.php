@@ -284,5 +284,48 @@ class Foxmetrics_Analytics_WooCommerce_Support {
 		wp_die();
 	}
 
+	/**
+	 * WooCommerce tracking update cart
+	 *
+	 * @since    1.0.1
+	 */
+	public function foxmetrics_tracking_update_cart_callback(){
+
+		$result = [];
+		$result['success'] = true;
+
+		/* if ( !empty($_POST['product_id']) ) {
+
+			$product_id = $_POST['product_id'];
+			$quantity = (!empty($_POST['quantity'])) ? $_POST['quantity'] : 1;
+			$product_name_and_cat_name = $this->wc_get_product_name_and_cat_name( $product_id );
+			$product_name = (!empty($product_name_and_cat_name['product_name']) ? $product_name_and_cat_name['product_name'] : '');
+			$product_price = (!empty($product_name_and_cat_name['product_price']) ? $product_name_and_cat_name['product_price'] : '');
+			$product_category_name = (!empty($product_name_and_cat_name['product_category_name']) ? $product_name_and_cat_name['product_category_name'] : '');
+			// prepare the script
+			$result['event_script'] = "<!-- FoxMetrics Web Analytics Start --><script type='text/javascript'>_fxm.events.push(['_fxm.ecommerce.addcartitem','".$product_id."', '".$product_name."', '".$product_category_name."', '".$quantity."', '".$product_price."']);</script><!-- FoxMetrics Web Analytics End -->";
+		} */
+
+		$event_script = "<!-- FoxMetrics Web Analytics Start --><script type='text/javascript'>";
+		foreach ( WC()->cart->get_cart() as $cart_item ) {
+			$product = $cart_item['data'];
+			$product_name = $product->get_name();
+			$quantity = $cart_item['quantity'];
+			$product_id = $cart_item['product_id'];
+			$product_name_and_cat_name = $this->wc_get_product_name_and_cat_name( $product_id );
+			$product_category_name = (!empty($product_name_and_cat_name['product_category_name']) ? $product_name_and_cat_name['product_category_name'] : '');
+			$product_price = (!empty($product_name_and_cat_name['product_price']) ? $product_name_and_cat_name['product_price'] : '');
+			
+			
+			$event_script .= "_fxm.events.push(['_fxm.ecommerce.addcartitem','".$product_id."', '".$product_name."', '".$product_category_name."', '".$quantity."', '".$product_price."']);";
+			
+		}
+		$event_script .= "</script><!-- FoxMetrics Web Analytics End -->";
+		$result['event_script'] = $event_script;
+		
+		echo json_encode($result);
+		wp_die();
+	}
+
 
 }
