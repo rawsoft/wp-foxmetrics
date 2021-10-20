@@ -62,18 +62,42 @@
     /* When product was add into cart from product single page */
     jQuery( document ).on( 'click', '.single_add_to_cart_button', function(e) {
         
-        if ( jQuery('.single-product div.product form.cart .quantity .qty').val() && jQuery('.single-product div.product form.cart .quantity .qty').val().length ) {
-
+        if(FA_WC_Support_Script.product_type == "grouped"){
             var product_id = FA_WC_Support_Script.product_id;
+            
             var product_name = FA_WC_Support_Script.product_name;
             var product_category_name = FA_WC_Support_Script.product_category_name;
             var product_price = FA_WC_Support_Script.product_price;
             var product_quantity = jQuery('.single-product div.product form.cart .quantity .qty').val();
             /* Prepare the script */
 
-            _fxm.events.push(['_fxm.ecommerce.addcartitem', product_id, product_name, product_category_name, product_quantity, product_price]);
-            
+            var grouped_array = FA_WC_Support_Script.grouped;
+            if(grouped_array.length){
+                grouped_array.forEach(function(item){
+                    product_quantity = jQuery("input[name='quantity["+item.product_id+"]']").val();
+                    if(product_quantity != ""){
+                        _fxm.events.push(['_fxm.ecommerce.addcartitem', item.product_id, item.product_name, item.product_category_name, product_quantity, item.product_price]);
+                    }
+                    
+                });
+                
+            }
+        }else{
+            if ( jQuery('.single-product div.product form.cart .quantity .qty').val() && jQuery('.single-product div.product form.cart .quantity .qty').val().length ) {
+
+                var product_id = FA_WC_Support_Script.product_id;
+                var product_name = FA_WC_Support_Script.product_name;
+                var product_category_name = FA_WC_Support_Script.product_category_name;
+                var product_price = FA_WC_Support_Script.product_price;
+                var product_quantity = jQuery('.single-product div.product form.cart .quantity .qty').val();
+                /* Prepare the script */
+    
+                _fxm.events.push(['_fxm.ecommerce.addcartitem', product_id, product_name, product_category_name, product_quantity, product_price]);
+                
+            }
         }
+
+        
     });
 
     /* When product was add into cart from product single page */
@@ -101,9 +125,6 @@
 
     /** when product updated into cart page. */
     $(document).on("updated_wc_div", function(){
-        /* $(".cart_item .product-remove > a").each(function(ind, ele){ */
-            /* var product_id = $(ele).attr("data-product_id"); */
-            
             jQuery.ajax({
                 type: 'POST',
                 url: FA_WC_Support_Script.ajax_url,
@@ -121,7 +142,6 @@
                 error: function () {
                 }
             });
-        /* }); */
     });
 
 

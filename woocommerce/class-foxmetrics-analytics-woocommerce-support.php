@@ -80,6 +80,25 @@ class Foxmetrics_Analytics_WooCommerce_Support {
 				$woocommerce_support_args['product_name'] = (!empty($product_name_and_cat_name['product_name']) ? $product_name_and_cat_name['product_name'] : '');
 				$woocommerce_support_args['product_category_name'] = (!empty($product_name_and_cat_name['product_category_name']) ? $product_name_and_cat_name['product_category_name'] : '');
 				$woocommerce_support_args['product_price'] = (!empty($product_name_and_cat_name['product_price']) ? $product_name_and_cat_name['product_price'] : '');
+				
+				$woocommerce_support_args['product_type'] = (!empty($product_name_and_cat_name['product_type']) ? $product_name_and_cat_name['product_type'] : 'simple');
+				
+				if($woocommerce_support_args['product_type'] == "grouped"){
+					if(!empty($product_name_and_cat_name['product_childrens'])){
+						foreach($product_name_and_cat_name['product_childrens'] as $pchildsk){
+							$product_name_and_cat_name = $this->wc_get_product_name_and_cat_name( $pchildsk );
+							$woocommerce_support_args["grouped"][] = array(
+								"product_id" => $pchildsk,
+								"product_name" => (!empty($product_name_and_cat_name['product_name']) ? $product_name_and_cat_name['product_name'] : ''),
+								"product_category_name" => (!empty($product_name_and_cat_name['product_category_name']) ? $product_name_and_cat_name['product_category_name'] : ''),
+								"product_price" => (!empty($product_name_and_cat_name['product_price']) ? $product_name_and_cat_name['product_price'] : '')
+
+							);
+							
+						}
+					}
+				}
+				
 			}
 		}
 		wp_localize_script( $this->plugin_name.'-woocommerce-support', 'FA_WC_Support_Script', $woocommerce_support_args );
@@ -118,6 +137,9 @@ class Foxmetrics_Analytics_WooCommerce_Support {
 						$response['product_name'] = $product_name;
 						$response['product_category_name'] = $product_category_name;
 						$response['product_price'] = $product->get_price();
+						$response['product_type'] = $product->get_type();
+						$response['product_childrens']   = $product->get_children();
+						
 					}
 				}
 			}
@@ -209,10 +231,7 @@ class Foxmetrics_Analytics_WooCommerce_Support {
 					$subtotal_with_tax_calc = number_format( (float) $subtotal_with_tax_calc, wc_get_price_decimals(), '.', '' );
 					
 					// Get Order Lines
-					//$line_subtotal = $order->get_subtotal();
 					
-					// $line_subtotal_with_taxes = strip_tags(html_entity_decode($order->get_subtotal_to_display( false, $tax_display )));
-
 					$total_tax = $order->get_total_tax();
 					$shipping_total = $order->get_shipping_total();
 					$shipping_tax = $order->get_shipping_tax();
@@ -223,7 +242,6 @@ class Foxmetrics_Analytics_WooCommerce_Support {
 					}
 					$shipping_total_with_taxes = number_format( (float) $shipping_total_with_taxes, wc_get_price_decimals(), '.', '' );
 					
-					// $shipping_total_with_taxes = strip_tags(html_entity_decode($order->get_shipping_to_display( $tax_display )));
 					
 					// Get Order Billing Addresses
 					$billing_city = $order->get_billing_city();
@@ -293,18 +311,6 @@ class Foxmetrics_Analytics_WooCommerce_Support {
 
 		$result = [];
 		$result['success'] = true;
-
-		/* if ( !empty($_POST['product_id']) ) {
-
-			$product_id = $_POST['product_id'];
-			$quantity = (!empty($_POST['quantity'])) ? $_POST['quantity'] : 1;
-			$product_name_and_cat_name = $this->wc_get_product_name_and_cat_name( $product_id );
-			$product_name = (!empty($product_name_and_cat_name['product_name']) ? $product_name_and_cat_name['product_name'] : '');
-			$product_price = (!empty($product_name_and_cat_name['product_price']) ? $product_name_and_cat_name['product_price'] : '');
-			$product_category_name = (!empty($product_name_and_cat_name['product_category_name']) ? $product_name_and_cat_name['product_category_name'] : '');
-			// prepare the script
-			$result['event_script'] = "<!-- FoxMetrics Web Analytics Start --><script type='text/javascript'>_fxm.events.push(['_fxm.ecommerce.addcartitem','".$product_id."', '".$product_name."', '".$product_category_name."', '".$quantity."', '".$product_price."']);</script><!-- FoxMetrics Web Analytics End -->";
-		} */
 
 		$event_script = "<!-- FoxMetrics Web Analytics Start --><script type='text/javascript'>";
 		foreach ( WC()->cart->get_cart() as $cart_item ) {
