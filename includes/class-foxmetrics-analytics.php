@@ -78,7 +78,9 @@ class Foxmetrics_Analytics {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-		$this->define_woocommerce_support_hooks();
+		if(class_exists("woocommerce")){
+			$this->define_woocommerce_support_hooks();
+		}
 
 	}
 
@@ -127,7 +129,12 @@ class Foxmetrics_Analytics {
 		 * WooCommerce is activated.
 		 * The class responsible for defining all actions that support for WooCommerce.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'woocommerce/class-foxmetrics-analytics-woocommerce-support.php';
+
+		 if(class_exists("woocommerce")){
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'woocommerce/class-foxmetrics-analytics-woocommerce-support.php';
+		 }
+
+		
 
 		$this->loader = new Foxmetrics_Analytics_Loader();
 
